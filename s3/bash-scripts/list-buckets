@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo "List Buckets in S3"
+
+# aws s3 ls
+
+# List last created bucket only
+aws s3 ls | sort -k 3 -r | head -n 1

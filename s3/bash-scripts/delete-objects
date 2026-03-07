@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+echo "Deleting Objects from S3 bucket"
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# Check if bucket name is provided
+if [ $# -lt 1 ]; then
+  echo "Specify bucket name: $0 <bucket-name>"
+  exit 1
+fi
+
+BUCKET_NAME="$1"
+
+# Delete all objects in the bucket
+aws s3api delete-objects /
+--bucket "$BUCKET_NAME" /
+--delete "$(aws s3api list-object-versions --bucket "$BUCKET_NAME" --output=json --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+

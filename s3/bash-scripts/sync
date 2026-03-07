@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+echo "Syncing local directory to S3 bucket"
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# Check if bucket name is provided
+if [ $# -lt 1 ]; then
+  echo "Specify bucket name: $0 <bucket-name>"
+  exit 1
+fi
+
+# Check for filename prefix argument
+if [ $# -lt 2 ]; then
+  echo "Specify bucket name: $0 <bucket-name>"
+  exit 1
+fi
+
+BUCKET_NAME="$1"
+FILENAME_PREFIX="$2"
+
+# OUTPUT_DIR
+OUTPUT_DIR="/tmp/s3-put-object"
+
+# remove existing output directory if it exists
+rm -rf "$OUTPUT_DIR"
+
+mkdir -p "$OUTPUT_DIR"
+
+# Generate a random number of files between 1 and 10
+NUM_FILES=$((RANDOM % 10 + 1))
+
+for i in $(seq 1 "$NUM_FILES"); do
+  # Create a random file name
+  FILE_NAME="${FILENAME_PREFIX}_$i.txt"
+  FILE_PATH="$OUTPUT_DIR/$FILE_NAME"
+
+  # Generate random content and write to the file
+  echo "This is file number $i" > "$FILE_PATH"
+  # Geneate a random string and append to the file
+  RANDOM_STRING=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20)
+  echo "$RANDOM_STRING" >> "$FILE_PATH"
+  
+done
+
+tree "$OUTPUT_DIR"
+
+
+# Sync with AWS S3 bucket
+aws s3api sync "$OUTPUT_DIR" "s3://$BUCKET_NAME/" --region us-east-1

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+echo "Listing objects in bucket"
+
+# Check if at least one argument is provided
+if [ $# -lt 1 ]; then
+  echo "Specify bucket name: $0 <bucket-name>"
+  exit 1
+fi
+
+BUCKET_NAME="$1"
+
+aws s3api list-objects \
+--bucket "$BUCKET_NAME" \
+--region us-east-1
