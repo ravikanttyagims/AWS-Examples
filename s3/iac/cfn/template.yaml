@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template for deploying a simple S3 bucket.
+Resources:
+  MyS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    # Properties:
+    # BucketName is not required, by defaul AWS will generate a unique name for the bucket.
+      # BucketName: my-unique-s3-bucket-name-12345

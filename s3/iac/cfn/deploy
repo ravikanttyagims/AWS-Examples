@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+echo "Deploy Bucket with CloudFormation"
+
+# aws cloudformation deploy \
+#   --template-file <path-to-template> \
+#   --stack-name <unique-stack-name> \
+#   --capabilities CAPABILITY_IAM
+
+STACK_NAME="s3-bucket-stack"
+
+# aws cloudformation deploy \
+# --template-file template.yaml \
+# --stack-name $STACK_NAME
+
+# Key Parameters and Options
+# --template-file: The path to your local CloudFormation template.
+# --stack-name: A unique name for your stack. If it exists, the command updates it; if not, it creates a new one.
+# --parameter-overrides: Used to pass input parameters to the template.
+# Inline format: Key1=Value1 Key2=Value2.
+# JSON file: Use file://path/to/params.json. Supported JSON formats include a list of ParameterKey and ParameterValue objects or a simple key-value map.
+# --capabilities: Required if your template creates IAM resources. Valid values include CAPABILITY_IAM and CAPABILITY_NAMED_IAM.
+# --s3-bucket: Required if your local template is larger than 51,200 bytes. The CLI will upload the template to this bucket before deployment.
+
+
+# Use --no-execute-changeset to create the changeset without executing it immediately. 
+# This allows you to review the changes before applying them.
+aws cloudformation deploy \
+--template-file template.yaml \
+--no-execute-changeset \
+--stack-name $STACK_NAME
+
