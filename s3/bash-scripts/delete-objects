@@ -18,3 +18,20 @@ aws s3api delete-objects /
 --bucket "$BUCKET_NAME" /
 --delete "$(aws s3api list-object-versions --bucket "$BUCKET_NAME" --output=json --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
 
+# This command is used to delete all objects (including versions) from an Amazon S3 bucket using the Amazon Web Services CLI. 
+# It is commonly required before deleting a versioned bucket, because a versioned bucket cannot be deleted until all object versions are removed.
+
+# What it does
+# * Uses the delete-objects API to delete multiple objects in a single request.
+# * --bucket "$BUCKET_NAME" → specifies the S3 bucket name stored in an environment variable.
+
+# --delete expects a JSON structure like this:
+
+# {
+#   "Objects": [
+#     { "Key": "file1.txt", "VersionId": "abc123" },
+#     { "Key": "file2.txt", "VersionId": "xyz456" }
+#   ]
+# }
+
+# So the command generates this JSON dynamically using another AWS CLI command.
