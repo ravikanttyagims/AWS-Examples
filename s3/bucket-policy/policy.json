@@ -1,0 +1,22 @@
+{
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::bucket-policy-example-ms/*",
+                "arn:aws:s3:::bucket-policy-example-ms"
+            ]
+        }
+    ]
+}
+
